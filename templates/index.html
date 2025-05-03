@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenStack Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="chat-container">
+    <h1>OpenStack Assistant</h1>
+    
+    <textarea id="userInput" placeholder="Enter your message..."></textarea>
+
+    <div class="slider-container" id="confirmContainer" style="display: none;">
+      <label class="switch">
+        <input type="checkbox" id="confirmSlider">
+        <span class="slider round"></span>
+      </label>
+      <span class="confirm-label">Confirm?</span>
+    </div>
+
+    <button onclick="sendMessage()">Send</button>
+
+    <div class="response-box" id="responseBox"></div>
+  </div>
+
+  <script>
+    let lastIntent = null;
+    let confirmRequired = false;
+
+    async function sendMessage() {
+      const userInput = document.getElementById("userInput").value;
+      const confirmSlider = document.getElementById("confirmSlider");
+      const responseBox = document.getElementById("responseBox");
+
+      const payload = { message: userInput };
+
+      if (confirmRequired) {
+        payload.confirm = confirmSlider.checked;
+        payload.intent = lastIntent;
+      }
+
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      responseBox.innerText = data.response;
+
+      // Handle confirmation UI
+      if (data.confirm_required) {
+        document.getElementById("confirmContainer").style.display = "flex";
+        confirmRequired = true;
+        lastIntent = data.intent;
+      } else {
+        document.getElementById("confirmContainer").style.display = "none";
+        confirmRequired = false;
+        lastIntent = null;
+      }
+
+      document.getElementById("userInput").value = "";
+    }
+  </script>
+</body>
+</html>
