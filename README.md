@@ -40,8 +40,8 @@ Follow these steps to get ChatCloud up and running:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/your-username/acecloud.git](https://github.com/your-username/acecloud.git)
-    cd acecloud
+    git clone [(https://github.com/Devg1804/AgenticAI-Cloud-Infrastructure-Automation.git)]((https://github.com/Devg1804/AgenticAI-Cloud-Infrastructure-Automation.git))
+    cd AgenticAI-Cloud-Infrastructure-Automation
     ```
 
 2.  **Install Dependencies:**
