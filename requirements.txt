@@ -1,0 +1,9 @@
+
+flask
+
+openstacksdk
+sqlalchemy
+PyYAML
+transformers
+torch
+accelerate
